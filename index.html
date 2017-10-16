@@ -13,17 +13,22 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     </head>
     <body>
-        <div class="jumbotron">
-            <h1 class="text-center">Trivia Game</h1>
-        </div>
         <div class="container">
-            <div class="col-lg-12 panel panel-default" id="startScreen">
-                <h1 class="text-center" >Totally Trivial Trivia!</h1>
-                <button type="button" class="btn btn-success" id="startGame">Start</button>
+            <div class="jumbotron">
+                <h1 class="text-center">Trivia Game</h1>
             </div>
-            <div class=" col-lg-12 panel panel-default" id="gameScreen">
-                <div class="panel-body">
-                    <h1 class="text-center" id="timeRemaining">Time Remaining: </h1>
+            <div class="row">
+                <div class="col-lg-12 panel panel-default text-center" id="startScreen">
+                    <button type="button" class="btn btn-success" id="startGame">Start</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-lg-12 panel panel-default" id="gameScreen">
+                    <div class="panel-body">
+                        <h3 class="text-center" id="timeRemaining">Time Remaining: <span id="counterVariable"></span></h3>
+                        <div id="currentQuestion"></div>
+                        <div id="possibleAnswers"></div>
+                    </div>
                 </div>
             </div>
         </div>
