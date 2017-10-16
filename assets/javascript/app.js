@@ -109,6 +109,7 @@ var gameObject = {
         gameObject.currentQuestion = 0
         gameObject.correctAnswers = 0;
         gameObject.incorrectAnswers = 0;
+        gameObject.totalTime = 30;
         gameObject.printQuestion();
     }
 }; 
