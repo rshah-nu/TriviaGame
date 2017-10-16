@@ -4,12 +4,11 @@ $("#gameScreen").hide();
 $("#startGame").on("click", function(event){
     $("#startScreen").fadeOut("slow", function() {
         $("#gameScreen").show();
+        gameObject.printQuestion();
     });
 });
 // Get On Click of Answer Buttons and check answer
 $(document).on("click", ".answerButton", function(event){
-    clearInterval(gameObject.printQuestion.timeClock);
-    console.log($(this).attr("data-answerValue"));
     if ($(this).attr("data-answerValue") == questionsObject[gameObject.currentQuestion].correctAnswer){
         gameObject.answeredCorrectly();
     }
@@ -42,31 +41,49 @@ var gameObject = {
             gameObject.outOfTime();
         };
     },
-    nextQuestion: () => {
-        
+    nextQuestion: function(){
+        gameObject.totalTime = 30;
+        gameObject.currentQuestion++
+        $("#timeRemaining").show();
+        gameObject.printQuestion();
     },
     printQuestion: function(){
+        timeClock = setInterval(gameObject.decrementTime, 1000);
         $("#currentQuestion").html("<h2>" + questionsObject[gameObject.currentQuestion].question + "</h2>");
         for (var index = 0; index < questionsObject[gameObject.currentQuestion].possibleAnswers.length; index++) {
             $("#possibleAnswers").append("<button class='answerButton' id='button-" + index + "'" + "data-answerValue='" + questionsObject[gameObject.currentQuestion].possibleAnswers[index] + "'>" + questionsObject[gameObject.currentQuestion].possibleAnswers[index] + "</button>");
-        }
-        var timeClock = setInterval(gameObject.decrementTime, 1000);
+        };
     },
 
     outOfTime: function(){
 
     },
     answeredCorrectly: function(){
-        console.log("You got it right!");
         gameObject.answeredCorrectly++;
+        clearInterval(timeClock);
         $("#currentQuestion").html("<h2>" + "You are right!" + "</h2>");
-        $("#possibleAnswers").html(" ")
+        $("#possibleAnswers").html(" ");
+        $("#counterVariable").html(" ");
+        $("#timeRemaining").hide();
+        if (gameObject.currentQuestion == questionsObject.length) {
+            setTimeout(gameObject.finalScorePage, 5*1000);
+        }
+        else {
+            setTimeout(gameObject.nextQuestion, 5*1000);
+        }
     },
     answeredIncorrectly: function(){
-        console.log("You got it wrong!");
+        clearInterval(timeClock);
         $("#currentQuestion").html("<h2>" + "You are wrong!" + "</h2>");
         $("#possibleAnswers").html(" ");
+        $("#timeRemaining").hide();
         gameObject.incorrectAnswers++;
+        if (gameObject.currentQuestion == questionsObject.length) {
+            setTimeout(gameObject.finalScorePage, 5*1000);
+        }
+        else {
+            setTimeout(gameObject.nextQuestion, 5*1000);
+        }
     },
     finalScorePage: function(){
 
@@ -75,5 +92,3 @@ var gameObject = {
 
     }
 }; 
-// gameObject.decrementTime();
-gameObject.printQuestion();
