@@ -1,9 +1,21 @@
-
+// Hide the game screen on page load
 $("#gameScreen").hide();
+// On click of the start button, hide the start screen, show the game screen
 $("#startGame").on("click", function(event){
     $("#startScreen").fadeOut("slow", function() {
         $("#gameScreen").show();
     });
+});
+// Get On Click of Answer Buttons and check answer
+$(document).on("click", ".answerButton", function(event){
+    clearInterval(gameObject.printQuestion.timeClock);
+    console.log($(this).attr("data-answerValue"));
+    if ($(this).attr("data-answerValue") == questionsObject[gameObject.currentQuestion].correctAnswer){
+        gameObject.answeredCorrectly();
+    }
+    else {
+        gameObject.answeredIncorrectly();
+    }
 });
 
 var questionsObject = [{
@@ -30,25 +42,31 @@ var gameObject = {
             gameObject.outOfTime();
         };
     },
-    nextQuestion: function(){
+    nextQuestion: () => {
         
     },
     printQuestion: function(){
         $("#currentQuestion").html("<h2>" + questionsObject[gameObject.currentQuestion].question + "</h2>");
         for (var index = 0; index < questionsObject[gameObject.currentQuestion].possibleAnswers.length; index++) {
-            $("#possibleAnswers").append("<button class='answerButton' id='button-" + index + "'>" + questionsObject[gameObject.currentQuestion].possibleAnswers[index] + "</button>");
+            $("#possibleAnswers").append("<button class='answerButton' id='button-" + index + "'" + "data-answerValue='" + questionsObject[gameObject.currentQuestion].possibleAnswers[index] + "'>" + questionsObject[gameObject.currentQuestion].possibleAnswers[index] + "</button>");
         }
-        setInterval(gameObject.decrementTime, 1000);
+        var timeClock = setInterval(gameObject.decrementTime, 1000);
     },
 
     outOfTime: function(){
 
     },
     answeredCorrectly: function(){
-
+        console.log("You got it right!");
+        gameObject.answeredCorrectly++;
+        $("#currentQuestion").html("<h2>" + "You are right!" + "</h2>");
+        $("#possibleAnswers").html(" ")
     },
     answeredIncorrectly: function(){
-
+        console.log("You got it wrong!");
+        $("#currentQuestion").html("<h2>" + "You are wrong!" + "</h2>");
+        $("#possibleAnswers").html(" ");
+        gameObject.incorrectAnswers++;
     },
     finalScorePage: function(){
 
